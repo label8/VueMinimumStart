@@ -29,11 +29,18 @@ module.exports = {
       // 拡張子.jsのファイルに対する設定
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: [
           {
+            // Babel を利用する
             loader: 'babel-loader',
-          },
+            // Babel のオプションを指定する
+            options: {
+              presets: [
+                // プリセットを指定することで、ES2018 を ES5 に変換
+                '@babel/preset-env',
+              ]
+            }
+          }
         ]
       },
     ]
@@ -43,7 +50,7 @@ module.exports = {
     // モジュールを読み込むときに検索するディレクトリの設定
     modules: [path.join(__dirname, 'src'), 'node_modules'],
     // importするときに省略できる拡張子の設定
-    extensions: ['.js','.vue'],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
       // 例えばmain.js内で `import Vue from 'vue';` と記述したときの`from vue`が表すファイルパスを指定
       'vue$': 'vue/dist/vue.esm.js'
